@@ -1,0 +1,7 @@
+====================================
+
+Spring Batch Beginner Course - The first practice project
+https://christianoette.com
+
+====================================
+
