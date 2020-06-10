@@ -30,26 +30,9 @@ public class JobConfiguration {
 
     @Bean
     public Step step() {
-        return new Step() {
-            @Override
-            public String getName() {
-                return "test-Step";
-            }
-
-            @Override
-            public boolean isAllowStartIfComplete() {
-                return false;
-            }
-
-            @Override
-            public int getStartLimit() {
-                return 0;
-            }
-
-            @Override
-            public void execute(StepExecution stepExecution) throws JobInterruptedException {
-
-            }
-        };
+        /*
+        * TODO Add your implementation here!
+        * */
+        return null;
     }
 }
