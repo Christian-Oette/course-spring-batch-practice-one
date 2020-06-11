@@ -1,5 +1,11 @@
 package com.christianoette.batch.practice.model;
 
-public class Person {
+import java.math.BigDecimal;
 
+public class Person {
+    public String name;
+    public String birthday;
+    public String email;
+    public BigDecimal revenue;
+    public Boolean isCustomer;
 }
