@@ -8,6 +8,7 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.step.builder.SimpleStepBuilder;
+import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.json.JacksonJsonObjectMarshaller;
 import org.springframework.batch.item.json.JacksonJsonObjectReader;
 import org.springframework.batch.item.json.JsonFileItemWriter;
@@ -43,6 +44,7 @@ public class JobConfiguration {
         SimpleStepBuilder<Person, Person> simpleStepBuilder = stepBuilderFactory.get("anonymizeStep")
                 .chunk(1);
         return simpleStepBuilder.reader(reader(null))
+                .processor(processor())
                 .writer(writer(null))
                 .build();
     }
@@ -58,6 +60,25 @@ public class JobConfiguration {
                 .jsonObjectReader(new JacksonJsonObjectReader<>(Person.class))
                 .build();
     }
+
+    @Bean
+    public ItemProcessor<Person, Person> processor() {
+        return input -> {
+            if (!input.isCustomer) {
+                return null;
+            }
+
+            Person output = new Person();
+            output.birthday = input.birthday;
+            output.email = input.email;
+            output.isCustomer = input.isCustomer;
+            output.name = input.name;
+            output.revenue = input.revenue;
+            return output;
+        };
+    }
+
+
     @Bean
     @StepScope
     public JsonFileItemWriter<Person> writer(@Value("#{jobParameters['outputPath']}") String outputPath) {
