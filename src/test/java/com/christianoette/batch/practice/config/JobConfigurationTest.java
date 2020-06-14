@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import java.io.File;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.contentOf;
 
 @SpringBootTest(classes = {JobConfigurationTest.TestConfig.class,
@@ -28,8 +29,8 @@ class JobConfigurationTest {
     @Test
     void happyCaseTest() throws Exception {
         JobParameters jobParameters = new JobParametersBuilder()
-                .addString("inputPath", "classpath:unitTestData/persons.json")
-                .addString("outputPath", "output/unitTestOutput.json")
+                .addString(AnonymizeJobParameterKeys.INPUT_PATH, "classpath:unitTestData/persons.json")
+                .addString(AnonymizeJobParameterKeys.OUTPUT_PATH, "output/unitTestOutput.json")
                 .toJobParameters();
 
         JobExecution jobExecution = jobLauncherTestUtils.launchJob(jobParameters);
@@ -37,6 +38,15 @@ class JobConfigurationTest {
         String outputContent = contentOf(new File("output/unitTestOutput.json"));
         assertThat(outputContent).contains("Wei Lang");
         assertThat(outputContent).doesNotContain("Daliah Shah");
+    }
+
+    @Test
+    void testInvalidParametersThrowException() throws Exception {
+
+        assertThatThrownBy(
+                () -> jobLauncherTestUtils.launchJob(new JobParameters())
+        ).isInstanceOf(JobParametersInvalidException.class)
+        .hasMessageContaining("The JobParameters do not contain required keys");
     }
 
     @Configuration

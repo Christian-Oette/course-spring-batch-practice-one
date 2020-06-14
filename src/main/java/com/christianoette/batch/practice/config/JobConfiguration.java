@@ -36,6 +36,7 @@ public class JobConfiguration {
     public Job job() {
         return jobBuilderFactory.get("anonymizeJob")
                 .start(step())
+                .validator(new AnonymizeJobParameterValidator())
                 .build();
     }
 
@@ -51,7 +52,8 @@ public class JobConfiguration {
 
     @Bean
     @StepScope
-    public JsonItemReader<Person> reader(@Value("#{jobParameters['inputPath']}") String inputPath) {
+    public JsonItemReader<Person> reader(
+            @Value(AnonymizeJobParameterKeys.INPUT_PATH_REFERENCE) String inputPath) {
         FileSystemResource resource = CourseUtils.getFileResource(inputPath);
 
         return new JsonItemReaderBuilder<Person>()
@@ -81,7 +83,7 @@ public class JobConfiguration {
 
     @Bean
     @StepScope
-    public JsonFileItemWriter<Person> writer(@Value("#{jobParameters['outputPath']}") String outputPath) {
+    public JsonFileItemWriter<Person> writer(@Value(AnonymizeJobParameterKeys.OUTPUT_PATH_REFERENCE) String outputPath) {
         FileSystemResource resource = CourseUtils.getFileResource(outputPath);
 
         return new JsonFileItemWriterBuilder<Person>()
