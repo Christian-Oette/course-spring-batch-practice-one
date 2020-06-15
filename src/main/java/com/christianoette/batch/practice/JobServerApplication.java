@@ -15,6 +15,6 @@ public class JobServerApplication {
         ConfigurableApplicationContext context =
                 SpringApplication.run(JobServerApplication.class, args);
         Anonymizer anonymizer = context.getBean(Anonymizer.class);
-        anonymizer.runAnonymizationJob();
+        //anonymizer.runAnonymizationJob();
     }
 }

@@ -5,6 +5,8 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+
 @Service
 public class Anonymizer {
 
@@ -18,5 +20,9 @@ public class Anonymizer {
 
     public void runAnonymizationJob() throws Exception {
         jobLauncher.run(job, new JobParameters());
+    }
+
+    public void runAnonymizationJob(File file) {
+
     }
 }
