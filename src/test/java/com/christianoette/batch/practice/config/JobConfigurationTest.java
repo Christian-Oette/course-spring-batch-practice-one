@@ -1,11 +1,14 @@
 package com.christianoette.batch.practice.config;
 
+import com.christianoette.batch.practice.FileHandlingJobExecutionListener;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.batch.core.*;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -26,6 +29,9 @@ class JobConfigurationTest {
     @Autowired
     private JobLauncherTestUtils jobLauncherTestUtils;
 
+    @MockBean
+    private FileHandlingJobExecutionListener fileHandlingJobExecutionListener;
+
     @Test
     void happyCaseTest() throws Exception {
         JobParameters jobParameters = new JobParametersBuilder()
@@ -38,6 +44,8 @@ class JobConfigurationTest {
         String outputContent = contentOf(new File("output/unitTestOutput.json"));
         assertThat(outputContent).contains("Wei Lang");
         assertThat(outputContent).doesNotContain("Daliah Shah");
+        Mockito.verify(fileHandlingJobExecutionListener).beforeJob(jobExecution);
+        Mockito.verify(fileHandlingJobExecutionListener).afterJob(jobExecution);
     }
 
     @Test

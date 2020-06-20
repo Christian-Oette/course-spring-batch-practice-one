@@ -1,6 +1,7 @@
 package com.christianoette.batch.practice.config;
 
 import com.christianoette.batch.dontchangeit.utils.CourseUtils;
+import com.christianoette.batch.practice.FileHandlingJobExecutionListener;
 import com.christianoette.batch.practice.model.Person;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -33,9 +34,10 @@ public class JobConfiguration {
     }
 
     @Bean
-    public Job job() {
+    public Job job(FileHandlingJobExecutionListener listener) {
         return jobBuilderFactory.get("anonymizeJob")
                 .start(step())
+                .listener(listener)
                 .validator(new AnonymizeJobParameterValidator())
                 .build();
     }
