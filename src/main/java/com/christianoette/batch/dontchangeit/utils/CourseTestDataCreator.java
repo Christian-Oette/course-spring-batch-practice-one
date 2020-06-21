@@ -1,4 +1,4 @@
-package com.christianoette.utils;
+package com.christianoette.batch.dontchangeit.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
@@ -23,7 +23,8 @@ public class CourseTestDataCreator {
     private static List<String> LAST_NAMES = List.of("Singh", "Lee", "Smith", "Khan", "Nguyen", "Shah", "Chen", "Fox", "Gill", "Burke", "Potter", "Carvalho", "Sanchez", "Liu", "Aziz", "Mueller", "Lang", "Wolf", "Small", "Michael", "Knox", "Winters", "Sommers", "Spring");
 
     @SuppressWarnings("FieldCanBeLocal")
-    private static String OUTPUT_DIRECTORY = "testData";
+    private static String OUTPUT_DIRECTORY = "public/upload";
+    //private static String OUTPUT_DIRECTORY = "src/main/resources/testData";
 
 
     public static void main(String[] args) throws IOException {
