@@ -37,6 +37,8 @@ class JobConfigurationTest {
         JobParameters jobParameters = new JobParametersBuilder()
                 .addString(AnonymizeJobParameterKeys.INPUT_PATH, "classpath:unitTestData/persons.json")
                 .addString(AnonymizeJobParameterKeys.OUTPUT_PATH, "output/unitTestOutput.json")
+                .addString(AnonymizeJobParameterKeys.ERROR_PATH, "ignored")
+                .addString(AnonymizeJobParameterKeys.UPLOAD_PATH, "ignored")
                 .toJobParameters();
 
         JobExecution jobExecution = jobLauncherTestUtils.launchJob(jobParameters);
@@ -53,6 +55,8 @@ class JobConfigurationTest {
         JobParameters jobParameters = new JobParametersBuilder()
                 .addString(AnonymizeJobParameterKeys.INPUT_PATH, "classpath:unitTestData/persons.json")
                 .addString(AnonymizeJobParameterKeys.OUTPUT_PATH, "output/unitTestOutput.json")
+                .addString(AnonymizeJobParameterKeys.ERROR_PATH, "ignored")
+                .addString(AnonymizeJobParameterKeys.UPLOAD_PATH, "ignored")
                 .addString(AnonymizeJobParameterKeys.ANONYMIZE_DATA, "true")
                 .toJobParameters();
 

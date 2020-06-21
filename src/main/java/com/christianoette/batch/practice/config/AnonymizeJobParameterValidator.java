@@ -9,7 +9,9 @@ public class AnonymizeJobParameterValidator extends DefaultJobParametersValidato
 
     private static final String[] REQUIRED_KEYS = {
             AnonymizeJobParameterKeys.INPUT_PATH,
-            AnonymizeJobParameterKeys.OUTPUT_PATH
+            AnonymizeJobParameterKeys.OUTPUT_PATH,
+            AnonymizeJobParameterKeys.UPLOAD_PATH,
+            AnonymizeJobParameterKeys.ERROR_PATH
     };
 
     private static final String[] OPTIONAL_KEYS = {

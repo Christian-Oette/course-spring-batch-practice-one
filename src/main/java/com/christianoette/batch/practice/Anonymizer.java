@@ -45,6 +45,7 @@ public class Anonymizer {
                 .addString(AnonymizeJobParameterKeys.OUTPUT_PATH, outputPath)
                 .addString(AnonymizeJobParameterKeys.ERROR_PATH, errorPath)
                 .addString(AnonymizeJobParameterKeys.UPLOAD_PATH, uploadedFilePath)
+                .addString(AnonymizeJobParameterKeys.ANONYMIZE_DATA, "true")
                 .toJobParameters();
 
         try {
