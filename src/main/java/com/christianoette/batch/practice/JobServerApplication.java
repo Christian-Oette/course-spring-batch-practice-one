@@ -12,9 +12,6 @@ import org.springframework.context.annotation.Configuration;
 public class JobServerApplication {
 
     public static void main(String[] args) throws Exception {
-        ConfigurableApplicationContext context =
-                SpringApplication.run(JobServerApplication.class, args);
-        Anonymizer anonymizer = context.getBean(Anonymizer.class);
-        //anonymizer.runAnonymizationJob();
+        SpringApplication.run(JobServerApplication.class, args);
     }
 }
