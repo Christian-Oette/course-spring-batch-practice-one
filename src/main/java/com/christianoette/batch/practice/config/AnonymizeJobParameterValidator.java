@@ -12,7 +12,9 @@ public class AnonymizeJobParameterValidator extends DefaultJobParametersValidato
             AnonymizeJobParameterKeys.OUTPUT_PATH
     };
 
-    private static final String[] OPTIONAL_KEYS = {};
+    private static final String[] OPTIONAL_KEYS = {
+            AnonymizeJobParameterKeys.ANONYMIZE_DATA
+    };
 
     public AnonymizeJobParameterValidator() {
         super(REQUIRED_KEYS, OPTIONAL_KEYS);
@@ -27,6 +29,14 @@ public class AnonymizeJobParameterValidator extends DefaultJobParametersValidato
         if (extension == null || !extension.equals("json")) {
             throw new JobParametersInvalidException("Input file must be in JSON Format");
         }
+
+        String anonymize = parameters.getString(AnonymizeJobParameterKeys.ANONYMIZE_DATA);
+        if (anonymize!=null) {
+            if (!anonymize.equals("true") && !anonymize.equals("false")) {
+                throw new JobParametersInvalidException("ANONYMIZE_DATA must be either true or false");
+            }
+        }
+
         // Additional validations if needed
     }
 }

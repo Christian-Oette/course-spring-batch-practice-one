@@ -47,7 +47,7 @@ public class JobConfiguration {
         SimpleStepBuilder<Person, Person> simpleStepBuilder = stepBuilderFactory.get("anonymizeStep")
                 .chunk(1);
         return simpleStepBuilder.reader(reader(null))
-                .processor(processor())
+                .processor(processor(null))
                 .writer(writer(null))
                 .build();
     }
@@ -66,17 +66,23 @@ public class JobConfiguration {
     }
 
     @Bean
-    public ItemProcessor<Person, Person> processor() {
+    @StepScope
+    public ItemProcessor<Person, Person> processor(@Value(AnonymizeJobParameterKeys.ANONYMIZE_DATA_REFERENCE)
+                                                           String anonymize) {
         return input -> {
             if (!input.isCustomer) {
                 return null;
             }
-
             Person output = new Person();
+            if (anonymize != null && anonymize.equals("true")) {
+                output.email = "";
+                output.name = "John Doe";
+            } else {
+                output.email = input.email;
+                output.name = input.name;
+            }
             output.birthday = input.birthday;
-            output.email = input.email;
             output.isCustomer = input.isCustomer;
-            output.name = input.name;
             output.revenue = input.revenue;
             return output;
         };

@@ -49,6 +49,26 @@ class JobConfigurationTest {
     }
 
     @Test
+    void anonymizeTest() throws Exception {
+        JobParameters jobParameters = new JobParametersBuilder()
+                .addString(AnonymizeJobParameterKeys.INPUT_PATH, "classpath:unitTestData/persons.json")
+                .addString(AnonymizeJobParameterKeys.OUTPUT_PATH, "output/unitTestOutput.json")
+                .addString(AnonymizeJobParameterKeys.ANONYMIZE_DATA, "true")
+                .toJobParameters();
+
+        JobExecution jobExecution = jobLauncherTestUtils.launchJob(jobParameters);
+        assertThat(jobExecution.getStatus()).isEqualTo(BatchStatus.COMPLETED);
+        String outputContent = contentOf(new File("output/unitTestOutput.json"));
+        assertThat(outputContent).contains("John Doe");
+        assertThat(outputContent).doesNotContain("Daliah.Shah@domain.xyz");
+        assertThat(outputContent).doesNotContain("Wei.Lang@domain.xyz");
+        assertThat(outputContent).doesNotContain("Wei Lang");
+        assertThat(outputContent).doesNotContain("Daliah Shah");
+        Mockito.verify(fileHandlingJobExecutionListener).beforeJob(jobExecution);
+        Mockito.verify(fileHandlingJobExecutionListener).afterJob(jobExecution);
+    }
+
+    @Test
     void testInvalidParametersThrowException() throws Exception {
 
         assertThatThrownBy(
